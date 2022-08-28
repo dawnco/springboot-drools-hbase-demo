@@ -22,11 +22,13 @@ public class HBaseConfig {
     @Value("${HBase.port}")
     private String port = "8105";
 
-    @Bean
+//    @Bean
     public HBaseService getHbaseService() {
+        //设置临时的hadoop环境变量，之后程序会去这个目录下的\bin目录下找winutils.exe工具，windows连接hadoop时会用到
+        //System.setProperty("hadoop.home.dir", "D:\\Program Files\\Hadoop");
         org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
         conf.set("hbase.zookeeper.quorum", nodes);
-        conf.set("hbase.client.keyvalue.maxsize", maxsize);
+//        conf.set("hbase.client.keyvalue.maxsize", maxsize);
         conf.set("hbase.zookeeper.property.clientPort", port);
         return new HBaseService(conf);
     }

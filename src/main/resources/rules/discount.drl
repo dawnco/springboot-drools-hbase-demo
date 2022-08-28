@@ -1,0 +1,27 @@
+global com.nz.entity.Discount discount;
+global com.nz.entity.Order order;
+
+rule "Age based discount"
+    when
+        //年龄判断
+        Order(age < 20 || age > 50)
+    then
+        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
+        discount.setDiscount(discount.getDiscount() + 10);
+end
+
+rule "gender discount"
+    when
+       Order(gender < 2 || age > 0)
+    then
+        System.out.println("==========gender + 5=============");
+        discount.setDiscount(discount.getDiscount() + 5);
+end
+
+rule "Amount based discount"
+    when
+        Order(amount > 1000)
+    then
+        System.out.println("==========Adding 5% discount for amount more than 1000$=============");
+        discount.setDiscount(discount.getDiscount() + 5);
+end
