@@ -3,6 +3,7 @@ package com.nz.controller;
 import com.example.demo.hbase.HBaseService;
 import com.nz.entity.Discount;
 import com.nz.entity.Order;
+import com.nz.entity.Result;
 import com.nz.service.OrderDiscountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,10 @@ public class IndexController {
     private OrderDiscountService orderDiscountService;
 
     @Autowired
-    public void setOrderDiscountService(OrderDiscountService orderDiscountService){
+    public void setOrderDiscountService(OrderDiscountService orderDiscountService) {
         this.orderDiscountService = orderDiscountService;
     }
+
 
 //    public IndexController(OrderDiscountService orderDiscountService){
 //        this.orderDiscountService =
@@ -38,23 +40,20 @@ public class IndexController {
 
     @ResponseBody
     @RequestMapping("/nz")
-    public String nz(HttpServletRequest request) {
+    public Result nz(HttpServletRequest request, HttpServletResponse response) {
         Order order = new Order();
         String age = request.getParameter("age") != null ? request.getParameter("age") : "0";
         String gender = request.getParameter("gender") != null ? request.getParameter("gender") : "0";
         String amount = request.getParameter("amount") != null ? request.getParameter("amount") : "0";
 
-        log.info("----------------------");
-        log.info(age);
-        log.info(gender);
-        log.info(amount);
-
-
         order.age = Integer.parseInt(age);
         order.gender = Integer.parseInt(gender);
         order.amount = Integer.parseInt(amount);
         Discount discount = orderDiscountService.getDiscount(order);
-        return "Hello World! " + discount.getDiscount();
+        Result result = new Result();
+        result.message = "" + discount.getDiscount();
+        result.debug = discount.getMessage();
+        return result;
     }
 
 

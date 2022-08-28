@@ -6,22 +6,31 @@ rule "Age based discount"
         //年龄判断
         Order(age < 20 || age > 50)
     then
-        System.out.println("==========Adding 10% discount for Kids/ senior customer=============");
         discount.setDiscount(discount.getDiscount() + 10);
+        discount.addMessage("age < 20 || age > 50 : discount +10");
 end
 
-rule "gender discount"
+rule "gender  = 1"
     when
-       Order(gender < 2 || age > 0)
+       Order(gender == 1)
     then
-        System.out.println("==========gender + 5=============");
+        discount.addMessage("gender = 1 : discount + 5");
         discount.setDiscount(discount.getDiscount() + 5);
+end
+
+
+rule "gender  = 2 "
+    when
+       Order(gender == 2)
+    then
+        discount.addMessage("gender = 2 : discount + 15");
+        discount.setDiscount(discount.getDiscount() + 15);
 end
 
 rule "Amount based discount"
     when
         Order(amount > 1000)
     then
-        System.out.println("==========Adding 5% discount for amount more than 1000$=============");
-        discount.setDiscount(discount.getDiscount() + 5);
+        discount.addMessage("amount > 1000 : discount + 20");
+        discount.setDiscount(discount.getDiscount() + 20);
 end
